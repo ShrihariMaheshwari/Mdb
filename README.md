@@ -1,4 +1,4 @@
-# 🚀 MDB (Modern Database)
+# 🚀 MDB
 
 <div align="center">
 
