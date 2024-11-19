@@ -5,6 +5,7 @@ import { registerRoutes } from './routes';
 import { errorHandler } from './plugins/error-handler';
 import { validatorCompiler } from './plugins/validator';
 import { metrics } from '../utils/metrics';
+import { metricsRoutes } from './routes/metric';
 
 interface ServerOptions {
   port?: number;
@@ -46,6 +47,9 @@ export async function createServer(
 
   // Register plugins
   await app.register(fastifyCors);
+
+  // Register metrics
+  await app.register(metricsRoutes);
   
   // Set validator compiler
   app.setValidatorCompiler(validatorCompiler);
