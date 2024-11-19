@@ -77,4 +77,11 @@ export class FileStorageEngine implements StorageEngine {
       );
     }
   }
+
+  async listCollections(): Promise<string[]> {
+    const files = await fs.readdir(this.dataDir);
+    return files
+      .filter((file) => file.endsWith(".json"))
+      .map((file) => file.replace(".json", ""));
+  }
 }

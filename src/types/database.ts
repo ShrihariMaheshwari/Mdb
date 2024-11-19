@@ -15,6 +15,7 @@ export interface Database {
     options?: CollectionOptions
   ): Promise<Collection<T>>;
   collection<T extends BaseRecord>(name: string): Collection<T>;
+  listCollections(): Promise<string[]>;
 }
 
 export interface Collection<T extends BaseRecord> {

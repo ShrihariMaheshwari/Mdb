@@ -45,4 +45,8 @@ export class DatabaseImpl implements Database {
     }
     return collection;
   }
+
+  async listCollections(): Promise<string[]> {
+    return Array.from(this.collections.keys());
+  }
 }

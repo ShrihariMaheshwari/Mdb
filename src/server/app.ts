@@ -89,6 +89,6 @@ export async function createServer(
     endpointMetrics: metrics.getMetricsByEndpoint(),
     uptime: process.uptime()
   }));
-  
+
   return app;
 }
