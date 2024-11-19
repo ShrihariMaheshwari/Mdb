@@ -1,6 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { Database, BaseRecord } from '../../types';
-import { QueryBuilder } from '../../query/builder';
+import { Database } from '../../types/database';
 
 interface RouteOptions {
   database: Database;
@@ -19,10 +18,10 @@ export async function registerCollectionRoutes(
   }>('/:collection', async (request, reply) => {
     const collection = database.collection(request.params.collection);
     const result = await collection.insert(request.body);
-    reply.status(201).send(result);
+    reply.code(201).send(result);
   });
 
-  // Get all records with query
+  // Get all records
   app.get<{
     Params: { collection: string };
     Querystring: { query?: string };
@@ -43,7 +42,7 @@ export async function registerCollectionRoutes(
     const result = await collection.findById(request.params.id);
     
     if (!result) {
-      reply.status(404).send({ error: 'Record not found' });
+      reply.code(404).send({ error: 'Record not found' });
       return;
     }
     
@@ -62,7 +61,7 @@ export async function registerCollectionRoutes(
     );
 
     if (!result) {
-      reply.status(404).send({ error: 'Record not found' });
+      reply.code(404).send({ error: 'Record not found' });
       return;
     }
 
@@ -77,10 +76,10 @@ export async function registerCollectionRoutes(
     const success = await collection.delete(request.params.id);
 
     if (!success) {
-      reply.status(404).send({ error: 'Record not found' });
+      reply.code(404).send({ error: 'Record not found' });
       return;
     }
 
-    reply.status(204).send();
+    reply.code(204).send();
   });
 }
