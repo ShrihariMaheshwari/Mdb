@@ -1,79 +1,39 @@
-// Export all types
-export type { Id } from "./types";
-export type { BaseRecord, WithoutBaseRecord } from "./types";
-export type {
-  Database,
-  Collection,
-  CollectionOptions,
-  DataBaseOptions,
-} from "./types/database";
-export type {
-  QueryFilter,
-  QueryOptions,
-  QueryOperators,
-  ComparisonValue,
-  ArrayValue,
-} from "./types/query";
-export type { StorageEngine } from "./types/storage";
+import { DatabaseImpl } from './core/database';
+import { createServer } from './server/app';
 
-// Export error classes
-export { DatabaseError, ValidationError, NotFoundError } from "./types/errors";
+async function main() {
+  try {
+    console.log('Starting database server...');
 
-// Export implementations
-export { DatabaseImpl } from "./core/database";
-export { CollectionImpl } from "./core/collection";
-export { FileStorageEngine } from "./storage/file-engine";
-export { QueryBuilder } from "./query/builder";
-export { QueryExecutor } from "./query/executor";
+    // Initialize the database
+    const db = new DatabaseImpl({
+      dataDir: './data'
+    });
 
-// Export server
-export { createServer } from "./server/app";
+    console.log('Database initialized.');
 
+    // Create the server
+    const server = await createServer(db, {
+      port: Number(process.env.PORT) || 3000,
+      host: process.env.HOST || 'localhost'
+    });
 
-// Example usage:
-/*
-import { DatabaseImpl, BaseRecord } from './index';
+    // Start listening
+    await server.listen({
+      port: Number(process.env.PORT) || 3000,
+      host: '0.0.0.0' // This allows connections from any IP
+    });
 
-interface UserRecord extends BaseRecord {
-  name: string;
-  email: string;
-  age: number;
+    console.log('\n=================================');
+    console.log(`🚀 Server is running on:`);
+    console.log(`   http://localhost:${process.env.PORT || 3000}`);
+    console.log('=================================\n');
+
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 }
 
-async function example() {
-  // Initialize database
-  const db = new DatabaseImpl({
-    dataDir: './data'
-  });
-
-  // Create a collection with email index
-  const users = await db.createCollection<UserRecord>('users', {
-    indexes: 'email'
-  });
-
-  // Insert a record
-  const user = await users.insert({
-    name: 'John Doe',
-    email: 'john@example.com',
-    age: 30
-  });
-
-  // Query records
-  const results = await users.find({
-    age: { $gt: 25 },
-    name: { $regex: '^John' }
-  });
-
-  // Update a record
-  await users.update(user.id, {
-    age: 31
-  });
-
-  // Delete a record
-  await users.delete(user.id);
-
-  // Create server
-  const server = await createServer(db);
-  await server.listen({ port: 3000 });
-}
-*/
+// Start the application
+main().catch(console.error);
