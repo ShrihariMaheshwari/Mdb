@@ -1,151 +1,175 @@
-# MDB (Modern Database)
+# 🚀 MDB (Modern Database)
 
-A modern, TypeScript-based document database with a React-based UI for easy data management.
+<div align="center">
 
-## Project Structure
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)](https://www.fastify.io/)
+[![Chakra UI](https://img.shields.io/badge/Chakra_UI-319795?style=for-the-badge&logo=chakra-ui&logoColor=white)](https://chakra-ui.com/)
 
-```plaintext
-MDB/
-├── server/            # Database implementation
-│   ├── src/
-│   │   ├── types/    # TypeScript type definitions
-│   │   ├── core/     # Core database functionality
-│   │   ├── storage/  # Storage engine implementation
-│   │   ├── query/    # Query building and execution
-│   │   ├── server/   # Fastify server setup
-│   │   └── utils/    # Utility functions
-│   ├── data/         # Database storage
-│   └── ...
-├── ui/               # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   └── ...
-│   └── ...
-└── README.md
-```
+A modern, TypeScript-based document database with an intuitive React dashboard for seamless data management.
 
-## Features
+[Getting Started](#getting-started) •
+[Features](#features) •
+[Documentation](#documentation) •
+[Contributing](#contributing)
 
-### Database Server
-- Document-based storage with JSON persistence
-- Rich query API with multiple operators
-- Type-safe query building
-- Collection-level indexing
-- Built with Fastify for high performance
-- Full TypeScript support
+</div>
 
-### User Interface
-- Modern React-based interface
-- Real-time data viewing and editing
-- Query builder interface
-- Built with Chakra UI for a clean, modern look
-- Responsive design
+---
 
-## Getting Started
+## ✨ Features
+
+### 🛢️ Database Server
+- **Document Storage**: JSON-based persistent storage
+- **Rich Query API**: Powerful query operators
+- **Type Safety**: Full TypeScript support
+- **Indexing**: Collection-level indexing for performance
+- **High Performance**: Built with Fastify
+- **Real-time**: Live data updates
+
+### 🎨 User Interface
+- **Modern Dashboard**: Clean, intuitive interface
+- **Live Updates**: Real-time data visualization
+- **Query Builder**: Visual query construction
+- **Responsive Design**: Works on all devices
+- **Dark Mode**: Built-in theme support
+
+## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm 8+
 
-### Installation
+### Quick Start
 
-1. Clone the repository
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/mdb.git
 cd mdb
-```
 
-2. Install server dependencies
-```bash
-cd server
+# Install dependencies and start both server and UI
 npm install
-```
-
-3. Install UI dependencies
-```bash
-cd ../ui
-npm install
-```
-
-### Running the Application
-
-1. Start the database server
-```bash
-# From the server directory
 npm run dev
 ```
 
-2. Start the UI (in a new terminal)
-```bash
-# From the ui directory
-npm run dev
+Visit:
+- 🎯 Database Server: http://localhost:3000
+- 🎨 Dashboard UI: http://localhost:3001
+
+## 📁 Project Structure
+
+```
+MDB/
+├── server/                # Database Server
+│   ├── src/
+│   │   ├── types/        # Type definitions
+│   │   ├── core/         # Core database logic
+│   │   ├── storage/      # Storage implementation
+│   │   ├── query/        # Query processing
+│   │   ├── server/       # API endpoints
+│   │   └── utils/        # Utilities
+│   ├── data/             # Data storage
+│   └── package.json
+├── ui/                    # React Dashboard
+│   ├── src/
+│   │   ├── components/   # React components
+│   │   ├── hooks/        # Custom hooks
+│   │   ├── services/     # API integration
+│   │   └── utils/        # Utilities
+│   └── package.json
+└── README.md
 ```
 
-The applications will be available at:
-- Database Server: http://localhost:3000
-- UI: http://localhost:3001
+## 📚 Documentation
 
-## API Usage
+### API Reference
 
-### Creating a Collection
+#### Collections
+
 ```typescript
+// Create a collection
 POST /api/collections
 {
   "name": "users"
 }
+
+// List collections
+GET /api/collections
 ```
 
-### Inserting Documents
+#### Documents
+
 ```typescript
-POST /api/users
+// Create document
+POST /api/:collection
 {
   "name": "John Doe",
-  "email": "john@example.com",
-  "age": 30
+  "email": "john@example.com"
 }
-```
 
-### Querying Documents
-```typescript
-GET /api/users?query={
+// Query documents
+GET /api/:collection?query={
   "age": { "$gt": 25 },
   "name": { "$regex": "^John" }
 }
+
+// Update document
+PUT /api/:collection/:id
+{
+  "age": 31
+}
+
+// Delete document
+DELETE /api/:collection/:id
 ```
 
-### Available Query Operators
-- `$eq`: Equal to
-- `$ne`: Not equal to
-- `$gt`: Greater than
-- `$gte`: Greater than or equal
-- `$lt`: Less than
-- `$lte`: Less than or equal
-- `$in`: In array
-- `$nin`: Not in array
-- `$regex`: Regular expression match
+### Query Operators
 
-## Development
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `$eq` | Equals | `{ "age": { "$eq": 25 } }` |
+| `$gt` | Greater than | `{ "age": { "$gt": 25 } }` |
+| `$lt` | Less than | `{ "price": { "$lt": 100 } }` |
+| `$in` | In array | `{ "status": { "$in": ["active", "pending"] } }` |
+| `$regex` | RegExp match | `{ "name": { "$regex": "^John" } }` |
+
+## 🛠️ Development
 
 ### Server
+
 ```bash
 cd server
-npm run dev     # Start development server
-npm run build   # Build for production
-npm start       # Run production build
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
 ### UI
+
 ```bash
 cd ui
-npm run dev     # Start development server
-npm run build   # Build for production
-npm run preview # Preview production build
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## Environment Variables
+### Environment Variables
 
-### Server (.env)
+#### Server (.env)
 ```env
 PORT=3000
 HOST=localhost
@@ -154,29 +178,14 @@ NODE_ENV=development
 LOG_LEVEL=info
 ```
 
-### UI (.env)
+#### UI (.env)
 ```env
 VITE_API_URL=http://localhost:3000
 ```
 
-## Folder Structure Details
+## 🤝 Contributing
 
-### Server
-- `types/`: TypeScript interfaces and type definitions
-- `core/`: Main database implementation
-- `storage/`: Storage engine implementation
-- `query/`: Query building and execution logic
-- `server/`: API routes and server setup
-- `utils/`: Helper functions and utilities
-
-### UI
-- `components/`: React components
-- `hooks/`: Custom React hooks
-- `services/`: API integration
-- `utils/`: Utility functions
-- `theme/`: UI theme configuration
-
-## Contributing
+We welcome contributions! Here's how you can help:
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -184,22 +193,35 @@ VITE_API_URL=http://localhost:3000
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## License
+## 📋 Todo
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+- [ ] Authentication & Authorization
+- [ ] Transactions Support
+- [ ] Schema Validation
+- [ ] Backup/Restore
+- [ ] Advanced Data Visualization
+- [ ] Collection Relationships
+- [ ] Monitoring Dashboard
 
-## Todo
+## 📝 License
 
-- [ ] Add authentication
-- [ ] Implement transactions
-- [ ] Add schema validation
-- [ ] Add backup/restore functionality
-- [ ] Add data visualization features
-- [ ] Implement relationships between collections
-- [ ] Add monitoring dashboard
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Built with [Fastify](https://www.fastify.io/)
-- UI built with [React](https://reactjs.org/) and [Chakra UI](https://chakra-ui.com/)
-- Developed using [TypeScript](https://www.typescriptlang.org/)
+Built with:
+- [Fastify](https://www.fastify.io/) - Fast and low overhead web framework
+- [React](https://reactjs.org/) - UI library
+- [Chakra UI](https://chakra-ui.com/) - Component library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Vite](https://vitejs.dev/) - Frontend tooling
+
+---
+
+<div align="center">
+
+Made with ❤️ by Shrihari
+
+[Report Bug](https://github.com/ShrihariMaheshwari/mdb/issues) • [Request Feature](https://github.com/ShrihariMaheshwari/mdb/issues)
+
+</div>
