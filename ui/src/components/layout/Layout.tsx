@@ -9,17 +9,15 @@ interface LayoutProps {
 }
 
 export function Layout({ children, collections }: LayoutProps) {
-  // Extract collection names for the sidebar
-  const collectionNames = collections.map((c) => c.name);
-  return (
-    <Flex direction="column" height="100vh">
-      <Header />
-      <Flex flex={1}>
-        <Sidebar collections={collectionNames} />
-        <Box flex={1} p={8} overflowY="auto">
-          {children}
-        </Box>
+    return (
+      <Flex direction="column" height="100vh">
+        <Header />
+        <Flex flex={1}>
+          <Sidebar collections={collections} />
+          <Box flex={1} p={8} overflowY="auto">
+            {children}
+          </Box>
+        </Flex>
       </Flex>
-    </Flex>
-  );
-}
+    );
+   }

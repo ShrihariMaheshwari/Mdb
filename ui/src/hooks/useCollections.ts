@@ -1,6 +1,7 @@
+// src/hooks/useCollections.ts
 import { useState, useEffect } from 'react';
 import { Collection } from '../types';
-import { collectionsApi } from '../services/api';
+import { getCollectionsWithCounts } from '../services/api';
 
 export function useCollections() {
   const [collections, setCollections] = useState<Collection[]>([]);
@@ -10,11 +11,11 @@ export function useCollections() {
   const fetchCollections = async () => {
     try {
       setLoading(true);
-      const response = await collectionsApi.list();
-      setCollections(response.data);
+      const data = await getCollectionsWithCounts();
+      setCollections(data);
       setError(null);
     } catch (err) {
-      setError(err as Error);
+      setError(err instanceof Error ? err : new Error('Failed to fetch collections'));
     } finally {
       setLoading(false);
     }
