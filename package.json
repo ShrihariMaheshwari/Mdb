@@ -1,35 +1,8 @@
 {
-  "name": "mdb",
-  "version": "1.0.0",
-  "description": "A TypeScript-based database with Fastify",
-  "main": "dist/index.js",
-  "scripts": {
-    "start": "NODE_ENV=production node dist/index.js",
-    "dev": "NODE_ENV=development tsx watch src/index.ts",
-    "build": "rimraf dist && tsc",
-    "clean": "rimraf dist"
-  },
-  "dependencies": {
-    "@fastify/cors": "^8.3.0",
-    "@fastify/type-provider-typebox": "^3.5.0",
-    "@sinclair/typebox": "^0.31.0",
-    "ajv": "^8.12.0",
-    "ajv-formats": "^2.1.1",
-    "fastify": "^4.21.0",
-    "fs-extra": "^11.1.1",
-    "pino": "^8.15.0",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "@types/fs-extra": "^11.0.1",
-    "@types/node": "^20.5.0",
-    "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
-    "eslint": "^8.47.0",
-    "pino-pretty": "^10.2.0",
-    "rimraf": "^5.0.1",
-    "tsx": "^3.12.7",
-    "typescript": "^5.1.6"
+    "name": "mdb-project",
+    "version": "1.0.0",
+    "scripts": {
+      "server": "cd server && npm run dev",
+      "ui": "cd ui && npm run dev"
+    }
   }
-}
