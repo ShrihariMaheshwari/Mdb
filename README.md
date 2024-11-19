@@ -57,7 +57,7 @@ npm run dev
 
 Visit:
 - 🎯 Database Server: http://localhost:3000
-- 🎨 Dashboard UI: http://localhost:3001
+- 🎨 Dashboard UI: http://localhost:5173
 
 ## 📁 Project Structure
 
