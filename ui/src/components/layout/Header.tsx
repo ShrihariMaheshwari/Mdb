@@ -1,24 +1,28 @@
-import { Flex, Heading, Button, useColorMode } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { Flex, Heading, IconButton, useColorMode } from "@chakra-ui/react";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 export function Header() {
-  const { colorMode, toggleColorMode } = useColorMode();
+ const { colorMode, toggleColorMode } = useColorMode();
 
-  return (
-    <Flex
-      as="header"
-      align="center"
-      justify="space-between"
-      py={4}
-      px={8}
-      bg={colorMode === "light" ? "white" : "gray.800"}
-      borderBottom="1px"
-      borderColor={colorMode === "light" ? "gray.200" : "gray.700"}
-    >
-      <Heading size="md">MDB Dashboard</Heading>
-      <Button onClick={toggleColorMode}>
-        {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-      </Button>
-    </Flex>
-  );
+ return (
+   <Flex
+     as="header"
+     align="center"
+     justify="space-between"
+     p={4}
+     borderBottom="1px"
+     borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
+     bg={colorMode === 'dark' ? 'gray.900' : 'white'}
+   >
+     <Heading size="md" color={colorMode === 'dark' ? 'white' : 'gray.800'}>
+       MDB Dashboard
+     </Heading>
+     <IconButton
+       aria-label="Toggle color mode"
+       icon={colorMode === 'dark' ? <SunIcon /> : <MoonIcon />}
+       onClick={toggleColorMode}
+       variant="ghost"
+     />
+   </Flex>
+ );
 }

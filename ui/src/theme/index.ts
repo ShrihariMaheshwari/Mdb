@@ -1,28 +1,32 @@
-import { extendTheme } from "@chakra-ui/react";
+// src/theme/index.ts
+import { extendTheme } from '@chakra-ui/react';
 
 export const theme = extendTheme({
   config: {
-    initialColorMode: "light",
-    useSystemColorMode: false,
+    initialColorMode: 'dark',
+    useSystemColorMode: true,
   },
-  colors: {
-    brand: {
-      50: "#E6F6FF",
-      100: "#BAE3FF",
-      200: "#7CC4FA",
-      300: "#47A3F3",
-      400: "#2186EB",
-      500: "#0967D2",
-      600: "#0552B5",
-      700: "#03449E",
-      800: "#01337D",
-      900: "#002159",
-    },
+  styles: {
+    global: (props: any) => ({
+      body: {
+        bg: props.colorMode === 'dark' ? 'gray.900' : 'gray.50',
+        color: props.colorMode === 'dark' ? 'white' : 'gray.800',
+      },
+    }),
   },
   components: {
     Button: {
       defaultProps: {
-        colorScheme: "brand",
+        variant: 'solid',
+      },
+      variants: {
+        solid: (props: any) => ({
+          bg: props.colorMode === 'dark' ? 'blue.500' : 'blue.500',
+          color: 'white',
+          _hover: {
+            bg: props.colorMode === 'dark' ? 'blue.600' : 'blue.600',
+          },
+        }),
       },
     },
   },

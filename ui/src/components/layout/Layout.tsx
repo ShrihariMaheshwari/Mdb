@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useColorMode } from "@chakra-ui/react";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { Collection } from "@/types";
@@ -9,15 +9,26 @@ interface LayoutProps {
 }
 
 export function Layout({ children, collections }: LayoutProps) {
-    return (
-      <Flex direction="column" height="100vh">
+  const { colorMode } = useColorMode();
+
+  return (
+    <Flex h="100vh" bg={colorMode === "dark" ? "gray.900" : "gray.50"}>
+      <Sidebar collections={collections} />
+      <Flex direction="column" flex="1">
         <Header />
-        <Flex flex={1}>
-          <Sidebar collections={collections} />
-          <Box flex={1} p={8} overflowY="auto">
-            {children}
-          </Box>
-        </Flex>
+        <Box
+          as="main"
+          p={8}
+          bg={colorMode === "dark" ? "gray.800" : "white"}
+          flex="1"
+          overflowY="auto"
+          borderRadius="xl"
+          m={4}
+          boxShadow="sm"
+        >
+          {children}
+        </Box>
       </Flex>
-    );
-   }
+    </Flex>
+  );
+}
