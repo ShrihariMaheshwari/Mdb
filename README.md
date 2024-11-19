@@ -1,141 +1,120 @@
-# TypeScript Database with Fastify API
+# MDB (Modern Database)
 
-A lightweight, type-safe database implementation with a Fastify-powered REST API. This project provides a flexible document database with CRUD operations, querying capabilities, and a high-performance HTTP interface.
-
-## Features
-
-- 📦 Document-based storage with JSON persistence
-- 🔍 Rich query API with comparison and regex operators
-- 🚀 High-performance Fastify server
-- 📝 Complete TypeScript support
-- 🔑 Collection-level indexing
-- 🔄 Automatic timestamps
-- 🔒 Type-safe query building
-- 📊 Request logging and monitoring
-
-## Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/typescript-database.git
-
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-
-# Start the server
-npm start
-```
+A modern, TypeScript-based document database with a React-based UI for easy data management.
 
 ## Project Structure
 
 ```plaintext
-src/
-├── types/                  # Type definitions
-│   ├── index.ts           # Base types
-│   ├── database.ts        # Database interfaces
-│   ├── query.ts           # Query types
-│   ├── storage.ts         # Storage interfaces
-│   └── errors.ts          # Error definitions
-├── storage/
-│   └── file-engine.ts     # File system storage implementation
-├── query/
-│   ├── builder.ts         # Query builder
-│   └── executor.ts        # Query executor
-├── core/
-│   ├── database.ts        # Main database implementation
-│   └── collection.ts      # Collection implementation
-├── server/
-│   ├── app.ts            # Fastify server setup
-│   ├── plugins/
-│   │   ├── error-handler.ts
-│   │   └── validator.ts
-│   └── routes/
-│       ├── collections.ts
-│       └── health.ts
-├── utils/
-│   ├── logger.ts         # Logging utility
-│   └── errors.ts         # Error utilities
-└── index.ts              # Main entry point
+MDB/
+├── server/            # Database implementation
+│   ├── src/
+│   │   ├── types/    # TypeScript type definitions
+│   │   ├── core/     # Core database functionality
+│   │   ├── storage/  # Storage engine implementation
+│   │   ├── query/    # Query building and execution
+│   │   ├── server/   # Fastify server setup
+│   │   └── utils/    # Utility functions
+│   ├── data/         # Database storage
+│   └── ...
+├── ui/               # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   └── ...
+│   └── ...
+└── README.md
 ```
 
-## Usage
+## Features
 
-### Basic Database Operations
+### Database Server
+- Document-based storage with JSON persistence
+- Rich query API with multiple operators
+- Type-safe query building
+- Collection-level indexing
+- Built with Fastify for high performance
+- Full TypeScript support
 
-```typescript
-import { DatabaseImpl, BaseRecord } from './index';
+### User Interface
+- Modern React-based interface
+- Real-time data viewing and editing
+- Query builder interface
+- Built with Chakra UI for a clean, modern look
+- Responsive design
 
-// Define your record type
-interface UserRecord extends BaseRecord {
-  name: string;
-  email: string;
-  age: number;
-}
+## Getting Started
 
-// Initialize database
-const db = new DatabaseImpl({
-  dataDir: './data'
-});
+### Prerequisites
+- Node.js 18+
+- npm 8+
 
-// Create a collection
-const users = await db.createCollection<UserRecord>('users', {
-  indexes: 'email' // Add unique index on email
-});
+### Installation
 
-// Insert a record
-const user = await users.insert({
-  name: 'John Doe',
-  email: 'john@example.com',
-  age: 30
-});
-
-// Query records
-const results = await users.find({
-  age: { $gt: 25 },
-  name: { $regex: '^John' }
-});
-```
-
-### Using the Query Builder
-
-```typescript
-import { QueryBuilder } from './query/builder';
-
-const query = new QueryBuilder<UserRecord>()
-  .where('age', { $gt: 25 })
-  .where('name', { $regex: '^John' })
-  .build();
-
-const results = await users.find(query);
-```
-
-### REST API Endpoints
-
-```plaintext
-POST   /api/:collection       # Create a new record
-GET    /api/:collection      # Query records
-GET    /api/:collection/:id  # Get record by ID
-PUT    /api/:collection/:id  # Update record
-DELETE /api/:collection/:id  # Delete record
-```
-
-Example API request:
-
+1. Clone the repository
 ```bash
-# Create a new user
-curl -X POST http://localhost:3000/api/users \
-  -H "Content-Type: application/json" \
-  -d '{"name": "John Doe", "email": "john@example.com", "age": 30}'
-
-# Query users
-curl http://localhost:3000/api/users?query={"age":{"$gt":25}}
+git clone https://github.com/yourusername/mdb.git
+cd mdb
 ```
 
-## Query Operators
+2. Install server dependencies
+```bash
+cd server
+npm install
+```
 
+3. Install UI dependencies
+```bash
+cd ../ui
+npm install
+```
+
+### Running the Application
+
+1. Start the database server
+```bash
+# From the server directory
+npm run dev
+```
+
+2. Start the UI (in a new terminal)
+```bash
+# From the ui directory
+npm run dev
+```
+
+The applications will be available at:
+- Database Server: http://localhost:3000
+- UI: http://localhost:3001
+
+## API Usage
+
+### Creating a Collection
+```typescript
+POST /api/collections
+{
+  "name": "users"
+}
+```
+
+### Inserting Documents
+```typescript
+POST /api/users
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "age": 30
+}
+```
+
+### Querying Documents
+```typescript
+GET /api/users?query={
+  "age": { "$gt": 25 },
+  "name": { "$regex": "^John" }
+}
+```
+
+### Available Query Operators
 - `$eq`: Equal to
 - `$ne`: Not equal to
 - `$gt`: Greater than
@@ -146,10 +125,27 @@ curl http://localhost:3000/api/users?query={"age":{"$gt":25}}
 - `$nin`: Not in array
 - `$regex`: Regular expression match
 
-## Configuration
+## Development
 
-Environment variables:
+### Server
+```bash
+cd server
+npm run dev     # Start development server
+npm run build   # Build for production
+npm start       # Run production build
+```
 
+### UI
+```bash
+cd ui
+npm run dev     # Start development server
+npm run build   # Build for production
+npm run preview # Preview production build
+```
+
+## Environment Variables
+
+### Server (.env)
 ```env
 PORT=3000
 HOST=localhost
@@ -158,30 +154,27 @@ NODE_ENV=development
 LOG_LEVEL=info
 ```
 
-## Development
-
-```bash
-# Run in development mode
-npm run dev
-
-# Build the project
-npm run build
-
-# Lint the code
-npm run lint
-
-# Format the code
-npm run format
+### UI (.env)
+```env
+VITE_API_URL=http://localhost:3000
 ```
 
-## Dependencies
+## Folder Structure Details
 
-- `fastify`: Web framework
-- `@fastify/cors`: CORS support
-- `pino`: Logging
-- `fs-extra`: Enhanced file system operations
-- `uuid`: ID generation
-- `ajv`: JSON Schema validation
+### Server
+- `types/`: TypeScript interfaces and type definitions
+- `core/`: Main database implementation
+- `storage/`: Storage engine implementation
+- `query/`: Query building and execution logic
+- `server/`: API routes and server setup
+- `utils/`: Helper functions and utilities
+
+### UI
+- `components/`: React components
+- `hooks/`: Custom React hooks
+- `services/`: API integration
+- `utils/`: Utility functions
+- `theme/`: UI theme configuration
 
 ## Contributing
 
@@ -197,11 +190,16 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Todo
 
-- [ ] Add authentication/authorization
+- [ ] Add authentication
 - [ ] Implement transactions
-- [ ] Add more complex indexing
-- [ ] Add caching layer
-- [ ] Implement backup/restore functionality
 - [ ] Add schema validation
-- [ ] Add more query operators
+- [ ] Add backup/restore functionality
+- [ ] Add data visualization features
 - [ ] Implement relationships between collections
+- [ ] Add monitoring dashboard
+
+## Acknowledgments
+
+- Built with [Fastify](https://www.fastify.io/)
+- UI built with [React](https://reactjs.org/) and [Chakra UI](https://chakra-ui.com/)
+- Developed using [TypeScript](https://www.typescriptlang.org/)
