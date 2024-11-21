@@ -2,9 +2,14 @@
 import { FastifyInstance } from 'fastify';
 import { Database } from '../../types/database';
 import { DatabaseError } from '../../types/errors';
+import { request } from 'http';
 
 interface RouteOptions {
   database: Database;
+}
+
+interface CreateCollectionBody {
+  name: string;
 }
 
 export async function registerCollectionRoutes(
@@ -136,6 +141,40 @@ export async function registerCollectionRoutes(
     } catch (error) {
       request.log.error(error, 'Failed to list collections');
       reply.code(500).send({ error: 'Internal Server Error', message: 'Failed to list collections' });
+    }
+  });
+
+  // Create a new collection
+  app.post<{
+    Body: CreateCollectionBody;
+  }>('/collections', async (request, reply) => {
+    try {
+      const { name } = request.body;
+      await database.createCollection(name);
+      reply.code(201).send({ name }); 
+    } catch(error) {
+      request.log.error(error, 'Failed to create collection');
+
+      if (error instanceof DatabaseError) {
+        if (error.code === 'INVALID_COLLECTION_NAME') {
+          reply.code(400).send({ 
+            error: 'Invalid Input',
+            message: 'Collection name must start with a letter and contain only letters, numbers, and underscores'
+          });
+          return;
+        }
+        if (error.code === 'COLLECTION_EXISTS') {
+          reply.code(409).send({
+            error: 'Conflict',
+            message: 'Collection already exists'
+          });
+          return;
+        }
+      }
+      reply.code(500).send({
+        error: 'Internal Server Error',
+        message: 'Failed to create collection'
+      });
     }
   });
 }
